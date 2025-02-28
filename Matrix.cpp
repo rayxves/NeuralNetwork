@@ -49,9 +49,6 @@ Matrix& Matrix::operator=(const Matrix& other) {
 }
 
 Matrix Matrix::sum(const Matrix& matrix_A, const Matrix& matrix_B) {
-    if (matrix_A.rows != matrix_B.rows || matrix_A.cols != matrix_B.cols) {
-        throw std::invalid_argument("As matrizes devem ter as mesmas dimensões para soma!");
-    }
 
     Matrix result(matrix_A.rows, matrix_A.cols);
     for (int i = 0; i < matrix_A.rows; i++) {
@@ -63,10 +60,6 @@ Matrix Matrix::sum(const Matrix& matrix_A, const Matrix& matrix_B) {
 }
 
 Matrix Matrix::subtraction(const Matrix& matrix_A, const Matrix& matrix_B) {
-    if (matrix_A.rows != matrix_B.rows || matrix_A.cols != matrix_B.cols) {
-        throw std::invalid_argument("As matrizes devem ter as mesmas dimensões para subtração!");
-    }
-
     Matrix result(matrix_A.rows, matrix_A.cols);
     for (int i = 0; i < matrix_A.rows; i++) {
         for (int j = 0; j < matrix_A.cols; j++) {
@@ -87,9 +80,6 @@ Matrix Matrix::multiply_by_scale(const Matrix& matrix, double scale) {
 }
 
 Matrix Matrix::multiply(const Matrix& matrix_A, const Matrix& matrix_B) {
-    if (matrix_A.cols != matrix_B.rows) {
-        throw std::invalid_argument("As matrizes não podem ser multiplicadas");
-    }
 
     Matrix result(matrix_A.rows, matrix_B.cols);
     for (int i = 0; i < result.rows; i++) {
