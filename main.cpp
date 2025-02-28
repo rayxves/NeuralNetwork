@@ -1,44 +1,50 @@
-#include "NeuralNetwork.h"
 #include <iostream>
 #include <vector>
-#include <cmath>
+#include "NeuralNetwork.h"
+#include "Matrix.h"
 
-int main()
-{
+int main() {
+    std::vector<double> input_neurons = {1.0, 1.0};  
+    std::vector<double> hidden_neurons = {0.0, 0.0, 0.0};  
+    std::vector<double> output_neurons = {0.0}; 
 
-    // std::vector<double> input_neurons = {0.5, 0.3};
-    // std::vector<double> hidden_neurons = {0.0, 0.0};
-    // std::vector<double> output_neurons = {0.0};
+    NeuralNetwork nn(input_neurons, hidden_neurons, output_neurons);
 
-    // NeuralNetwork nn(input_neurons, hidden_neurons, output_neurons);
+    std::vector<std::vector<double>> inputs = {
+        {1.0, 1.0},
+        {1.0, 0.0},
+        {0.0, 1.0},
+        {0.0, 0.0}
+    };
 
-    // std::vector<double> target = {0.9};
-    // nn.train(target, input_neurons);
+    std::vector<std::vector<double>> outputs = {
+        {0.0},
+        {1.0},
+        {1.0},
+        {0.0}
+    };
 
-    // std::vector<double> output = nn.predict(input_neurons);
+    bool train = true;
 
-    // std::cout << "Previsão da rede neural: " << output[0] << std::endl;
-
-    Matrix m(3, 3);
-    m.randomize();
-     for (int i = 0; i < m.rows; i++)
-    {
-        for (int j = 0; j < m.cols; j++)
-        {
-            std::cout << m.data[i][j] << std::endl;
-        }
-        std::cout << "fim da matrix m";
-    }
-    Matrix result = m.apply_function(sqrt); // Aplica raiz quadrada a todos os elementos
     
-    for (int i = 0; i < result.rows; i++)
-    {
-        for (int j = 0; j < result.cols; j++)
-        {
-            std::cout << result.data[i][j] << std::endl;
+    while (train) {
+        for (int i = 0; i < 100; ++i) {  
+            int index = rand() % 4; 
+            nn.train(outputs[index], inputs[index]);
         }
-        
+
+        std::vector<double> prediction_00 = nn.predict({0.0, 0.0});
+        std::vector<double> prediction_10 = nn.predict({1.0, 0.0});
+
+        std::cout << "Prediction for [0, 0]: " << prediction_00[0] << std::endl;
+        std::cout << "Prediction for [1, 0]: " << prediction_10[0] << std::endl;
+
+        if (prediction_00[0] < 0.1 && prediction_10[0] > 0.9) {
+            train = false;
+            std::cout << "Training completed!" << std::endl;
+        }
+  
     }
-    
+
     return 0;
 }
